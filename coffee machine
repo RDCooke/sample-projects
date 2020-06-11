@@ -1,0 +1,103 @@
+coffee_machine = [400, 540, 120, 9, 550]
+espresso = [250, 0, 16, 1, 4]
+latte = [350, 75, 20, 1, 7]
+cappuccino = [200, 100, 12, 1, 6]
+
+def coffee_status():
+    print("The coffee machine has:")
+    print(coffee_machine[0], "of water")
+    print(coffee_machine[1], "of milk")
+    print(coffee_machine[2], "of coffee beans")
+    print(coffee_machine[3], "of disposable cups")
+    print("$" + str(coffee_machine[4]), "of money")
+
+def make_espresso():
+  for i in range(0, 4):
+    x = coffee_machine[i] - espresso[i]
+    coffee_machine[i] = x
+  y = coffee_machine[4] + espresso[4]
+  coffee_machine[4] = y
+  print(coffee_machine)
+  
+def make_latte():
+  for i in range(0, 4):
+    x = coffee_machine[i] - latte[i]
+    coffee_machine[i] = x
+  y = coffee_machine[4] + latte[4]
+  coffee_machine[4] = y
+  print(coffee_machine)
+
+def make_cappuccino():
+  for i in range(0, 4):
+    x = coffee_machine[i] - cappuccino[i]
+    coffee_machine[i] = x
+  y = coffee_machine[4] + cappuccino[4]
+  coffee_machine[4] = y
+  print(coffee_machine)
+
+while True:
+  print("Write action (buy, fill, take, remaining, exit):")
+  action = input()
+  if action == "buy":
+    print("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino, back - to main menu:")
+    choice = input()
+    if choice == "back":
+      continue
+    if choice == "1":
+      if coffee_machine[0] >= 250 and coffee_machine[2] >= 16 and coffee_machine[3] >= 1:
+        print("I have enough resources, making you a coffee!")
+        make_espresso()
+        continue
+      if coffee_machine[0] < 250:
+        print("Sorry, not enough water!")
+      if coffee_machine[2] < 16:
+        print("Sorry, not enough beans!")
+      if coffee_machine[3] < 1:
+        print("Sorry, not enough cups!")     
+    if choice == "2":
+      if coffee_machine[0] >= 350 and coffee_machine[1] >= 75 and coffee_machine[2] >= 20 and coffee_machine[3] >= 1:
+        print("I have enough resources, making you a coffee!")
+        make_latte()
+        continue
+      if coffee_machine[0] < 350:
+        print("Sorry, not enough water!")
+      if coffee_machine[1] < 75:
+        print("Sorry, not enough milk!")
+      if coffee_machine[2] < 20:
+        print("Sorry, not enough beans!")
+      if coffee_machine[3] < 1:
+        print("Sorry, not enough cups!")
+    if choice == "3":
+      if coffee_machine[0] >= 200 and coffee_machine[1] >= 100 and coffee_machine[2] >= 12 and coffee_machine[3] >= 1:
+        print("I have enough resources, making you a coffee!")
+        make_cappuccino()
+        continue
+      if coffee_machine[0] < 200:
+        print("Sorry, not enough water!")
+      if coffee_machine[1] < 100:
+        print("Sorry, not enough milk!")
+      if coffee_machine[2] < 12:
+        print("Sorry, not enough beans!")
+      if coffee_machine[3] < 1:
+        print("Sorry, not enough cups!")
+  if action == "fill":
+    print("Write how many ml of water do you want to add:")
+    new_water = int(input())
+    coffee_machine[0] = coffee_machine[0] + new_water
+    print("Write how many ml of milk do you want to add:")
+    new_milk = int(input())
+    coffee_machine[1] = coffee_machine[1] + new_milk
+    print("Write how many grams of coffee beans do you want to add:")
+    new_beans = int(input())
+    coffee_machine[2] = coffee_machine[2] + new_beans
+    print("Write how many disposable cups of coffee do you want to add:")
+    new_cups = int(input())
+    coffee_machine[3] = coffee_machine[3] + new_cups
+    continue
+  if action == "take":
+    print("I gave you $" + str(coffee_machine[4]))
+    coffee_machine[4] = 0
+  if action == "remaining":
+    coffee_status()
+  if action == "exit":
+    break
