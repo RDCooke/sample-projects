@@ -17,7 +17,6 @@ def make_espresso():
     coffee_machine[i] = x
   y = coffee_machine[4] + espresso[4]
   coffee_machine[4] = y
-  #print(coffee_machine)
   
 def make_latte():
   for i in range(0, 4):
@@ -25,7 +24,6 @@ def make_latte():
     coffee_machine[i] = x
   y = coffee_machine[4] + latte[4]
   coffee_machine[4] = y
-  #print(coffee_machine)
 
 def make_cappuccino():
   for i in range(0, 4):
@@ -33,7 +31,6 @@ def make_cappuccino():
     coffee_machine[i] = x
   y = coffee_machine[4] + cappuccino[4]
   coffee_machine[4] = y
-  #print(coffee_machine)
 
 while True:
   print("Write action (buy, fill, take, remaining, exit):")
