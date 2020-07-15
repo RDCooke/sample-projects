@@ -1,0 +1,68 @@
+board = ["_", "_", "_", "_", "_", "_", "_", "_", "_"]
+
+print("---------")
+print(f"| {board[0]} {board[1]} {board[2]} |")
+print(f"| {board[3]} {board[4]} {board[5]} |")
+print(f"| {board[6]} {board[7]} {board[8]} |")
+print("---------")
+
+locations = [13, 23, 33, 12, 22, 32, 11, 21, 31]
+locations_index = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+turn_count = 0
+
+loop = True
+while loop:
+  coordinates = input("Enter the coordinates: ").replace(" ", "")
+  
+  if coordinates.isnumeric() == False:
+    print("You should enter numbers!")
+  else:
+    coordinates = int(coordinates)
+    if coordinates not in locations:
+      print("Coordinates should be from 1 to 3!")
+    
+  for i in locations_index:
+    if coordinates == locations[i]:
+      if board[i] != "_":
+        print("This cell is occupied! Choose another one!")
+      else:
+        if turn_count % 2 == 0:
+          board[i] = "X"
+          turn_count += 1
+        else:
+          board[i] = "O"
+          turn_count += 1
+      
+  print("---------")
+  print(f"| {board[0]} {board[1]} {board[2]} |")
+  print(f"| {board[3]} {board[4]} {board[5]} |")
+  print(f"| {board[6]} {board[7]} {board[8]} |")
+  print("---------")
+  row0 = [board[0], board[1], board[2]]
+  row1 = [board[3], board[4], board[5]]
+  row2 = [board[6], board[7], board[8]]
+
+  col0 = [board[0], board[3], board[6]]
+  col1 = [board[1], board[4], board[7]]
+  col2 = [board[2], board[5], board[8]]
+
+  diag0 = [board[0], board[4], board[8]]
+  diag1 = [board[2], board[4], board[6]]
+  board_win = [row0, row1, row2, col0, col1, col2, diag0, diag1]
+
+  x_win = 0
+  o_win = 0
+  
+  for i in board_win:
+      if len(set(i)) == 1 and i[0] == "X":
+          x_win += 1
+          print("X wins")
+          loop = False
+      if len(set(i)) == 1 and i[0] == "O":
+          o_win += 1
+          print("O wins")
+          loop = False
+  
+  if turn_count == 9 and x_win == 0 and o_win == 0:
+      loop = False
+      print("Draw")
