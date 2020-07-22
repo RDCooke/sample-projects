@@ -1,0 +1,47 @@
+import random
+rating = 0
+
+print("Enter your name: ")
+name = input()
+print(f"Hello, {name}")
+
+game = input()
+default = ['rock', 'paper', 'scissors']
+if game == "":
+  game = default
+else:
+  game = game.split(',')
+print("Okay, let's start")
+
+while True:
+  user_choice = input()
+  computer_choice = random.choice(game)
+  
+  if user_choice == '!exit':
+    print("Bye!")
+    break
+  elif user_choice == '!rating':
+    print(f"Your rating: {rating}")
+  elif user_choice not in game:
+    print("Invalid input")
+  elif user_choice == computer_choice:
+    print(f"There is a draw ({user_choice})")
+    rating += 50
+  elif user_choice in game:
+    win_list = []
+    lose_list = []
+    for i in range(game.index(user_choice)):
+      win_list.append(game[i])
+    for i in range(game.index(user_choice) + 1, len(game)):
+      lose_list.append(game[i])
+    while len(win_list) > len(lose_list):
+      lose_list.append(win_list[0])
+      win_list.remove(win_list[0])
+    while len(win_list) < len(lose_list):
+      win_list.append(lose_list[-1])
+      lose_list.remove(lose_list[-1])
+    if computer_choice in win_list:
+      print(f"Well done. Computer chose {computer_choice} and failed")
+      rating += 100
+    elif computer_choice in lose_list:
+      print(f"Sorry, but computer chose {computer_choice}")
