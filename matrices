@@ -1,0 +1,196 @@
+def create_matrix():
+  n, m = [int(i) for i in input("Enter matrix size: ").split()]
+  mx = []
+  print("Enter matrix: ")
+  for row in range(n):
+    inner_row = [int(i) if i.isdigit() else float(i) for i in input().split()]
+    mx.append(inner_row)
+  return mx
+
+def matrix_add():
+  n, m = [int(i) for i in input("Enter size of first matrix: ").split()]
+  list_of_lists = []
+  print("Enter first matrix:")
+  for row in range(n):
+    inner_list = [int(i) if i.isdigit() else float(i) for i in input().split()]
+    list_of_lists.append(inner_list)
+
+  a, b = [int(i) for i in input("Enter size of second matrix: ").split()]
+  full_list = []
+  print("Enter second matrix:")
+  for row in range(a):
+    in_list = [int(i) if i.isdigit() else float(i) for i in input().split()]
+    full_list.append(in_list)
+
+  if n != a and m != b:
+    print("The operation cannot be performed")
+  else:
+    final_matrix = [[list_of_lists[i][j] + full_list[i][j] for j in range(len(list_of_lists[0]))] for i in range(len(list_of_lists))]
+    print("The result is:")
+    for ele in final_matrix:
+      print(*ele, sep=' ')
+
+def integer_multiply():
+  matrix = create_matrix()
+  multiplier = input("Enter constant: ")
+  if multiplier.isdigit():
+    multiplier = int(multiplier)
+  else:
+    multiplier = float(multiplier)
+  final_matrix = [[matrix[i][j] * multiplier for j in range(len(matrix[0]))] for i in range(len(matrix))]
+  print("The result is:")
+  for ele in final_matrix:
+    print(*ele, sep=' ')
+
+def multiply_matrix():
+  n, m = [int(i) for i in input("Enter size of first matrix: ").split()]
+  X = []
+  print("Enter first matrix:")
+  for row in range(n):
+    inner_list = [int(i) if i.isdigit() else float(i) for i in input().split()]
+    X.append(inner_list)
+
+  a, b = [int(i) for i in input("Enter size of second matrix: ").split()]
+  Y = []
+  print("Enter second matrix:")
+  for row in range(a):
+    in_list = [int(i) if i.isdigit() else float(i) for i in input().split()]
+    Y.append(in_list)
+
+  if m != a:
+    print("The operation cannot be performed")
+  else:
+    result = [[sum(a*b for a,b in zip(X_row,Y_col)) for Y_col in zip(*Y)] for X_row in X]
+  print("The result is:")
+  for r in result:
+   print(*r, sep=' ')
+
+def main_transpose():
+  matrix = create_matrix()
+  transpose = []
+  for i in range(len(matrix[0])):
+    temp = []
+    for j in range(len(matrix)):
+      temp.append(matrix[j][i])
+    transpose.append(temp)
+  print("The result is:")
+  for i in transpose:
+    print(*i, sep=" ")
+
+def side_transpose():
+  matrix = create_matrix()
+  transpose = []
+  for i in range(len(matrix[0])):
+    temp = []
+    for j in range(len(matrix)):
+      temp.append(matrix[j][i])
+    transpose.append(temp[::-1])
+  print("The result is:")
+  for i in reversed(transpose):
+    print(*i, sep=" ")
+
+def vertical_transpose():
+  n, m = [int(i) for i in input("Enter matrix size: ").split()]
+  matrix = []
+  print("Enter matrix: ")
+  for row in range(n):
+    inner_row = [int(i) if i.isdigit() else float(i) for i in input().split()]
+    matrix.append(inner_row[::-1])
+  print("The result is:")
+  for i in matrix:
+    print(*i, sep=" ")
+
+def horizontal_transpose():
+  matrix = create_matrix()
+  print("The result is:")
+  for i in reversed(matrix):
+    print(*i, sep=" ")
+
+def find_determinant(M):
+  if M == 1:
+    return M[0][0]
+  elif len(M) == 2:
+    return (M[0][0] * M[1][1] - M[0][1] * M[1][0])
+  else:
+    total = 0
+    for column, element in enumerate(M[0]):
+      K = [x[:column] + x[column + 1 :] for x in M[1:]]
+      if column % 2 == 0:
+        total += element * find_determinant(K)
+      else:
+        total -= element * find_determinant(K)
+    return total
+
+def get_minor(m,i,j):
+  return [row[:j] + row[j + 1:] for row in (m[:i] + m[i + 1:])]
+
+def get_inverse(m):
+  determinant = find_determinant(m)
+  if determinant == 0:
+    return "This matrix doesn't have an inverse."
+  else:
+    if len(m) == 2:
+      return [[m[1][1]/determinant, -1*m[0][1]/determinant], [-1*m[1][0]/determinant, m[0][0]/determinant]]
+    cofactors = []
+    for r in range(len(m)):
+      cofactorRow = []
+      for c in range(len(m)):
+        minor = get_minor(m,r,c)
+        cofactorRow.append(((-1)**(r+c)) * find_determinant(minor))
+      cofactors.append(cofactorRow)
+    cofactors = list(map(list,zip(*cofactors)))
+    for r in range(len(cofactors)):
+      for c in range(len(cofactors)):
+        cofactors[r][c] = cofactors[r][c]/determinant
+    return cofactors
+
+run = True
+
+while run:
+  print("""1. Add matrices
+2. Multiply matrix by a constant
+3. Multiply matrices
+4. Transpose matrix
+5. Calculate a determinant
+6. Inverse matrix
+0. Exit
+Your choice: """)
+
+  choice = input()
+  if choice == '0':
+    run = False
+  elif choice == '1':
+    matrix_add()
+  elif choice == '2':
+    integer_multiply()
+  elif choice == '3':
+    multiply_matrix()
+  elif choice == '4':
+    print("""1. Main diagonal
+2. Side diagonal
+3. Vertical line
+4. Horizontal line
+Your choice: """)
+    selection = input()
+    if selection == '1':
+      main_transpose()
+    elif selection == '2':
+      side_transpose()
+    elif selection == '3':
+      vertical_transpose()
+    elif selection == '4':
+      horizontal_transpose()
+  elif choice == '5':
+    matrix = create_matrix()
+    det = find_determinant(matrix)
+    print("The result is:")
+    print(det)
+  elif choice == '6':
+    matrix = create_matrix()
+    inverse = get_inverse(matrix)
+    if inverse == "This matrix doesn't have an inverse.":
+      print(inverse)
+    else:
+      print("The result is:")
+      for i in inverse:
+        print(*i, sep=" ")
